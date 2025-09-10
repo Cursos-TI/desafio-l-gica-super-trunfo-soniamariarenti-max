@@ -1,1 +1,115 @@
+#include <stdio.h>
 
+int main(){
+  
+  char pais1[] = "Brasil";
+  char pais2[] = "Argentina";
+  
+  int populacao1 = 214, populacao2 = 45;
+  int area1 = 8516, area2 = 2780;
+  float densidade1 = 25.1, densidade2 = 16.2;
+  
+  int escolha1, escolha2;
+  float valor1_p1, valor1_p2;
+  float valor2_p1, valor2_p2;
+  float soma1, soma2;
+  
+  
+  printf("Escolha o primeiro atributo para comparar:\n");
+  printf("1 - populacao\n");
+  printf("2 - area\n");
+  printf("3 - densidade demografica\n");
+  scanf("%d", &escolha1);
+  
+  switch (escolha1) {
+      case 1:
+       valor1_p1 = populacao1;
+       valor1_p2 = populacao2;
+       break;
+      case 2:
+       valor1_p1 = area1;
+       valor1_p2 = area2;
+       break;
+      case 3:
+       valor1_p1 = densidade1;
+       valor1_p2 = densidade2;
+       break;
+      default:
+      printf("Opcao invalida!\n");
+     return 0;
+  }
+  
+   printf("Escolha o segundo atributo (Diferente do primeiro):\n");
+   switch (escolha1) {
+       case 1:
+         printf("2 - area\n");
+         printf("3 - densidade demografica");
+         break;
+        case 2:
+          printf("1 - populacao\n");
+          printf("2 - densidade demografica\n");
+          break;
+        case 3:
+          printf("1 - populacao\n");
+          printf("2 - area\n");
+          break;
+   }
+    scanf("%d", &escolha2);
+    if(escolha2 == escolha1){
+        printf("nao pode escolher o mesmo atributo duas vezes");
+        return 0;
+    }
+    switch(escolha2) {
+      case 1:
+       valor2_p1 = populacao1;
+       valor2_p2 = populacao2;
+       break;
+      case 2:
+       valor2_p1 = area1;
+       valor2_p2 = area2;
+       break;
+      case 3:
+        valor2_p1 = densidade1;
+        valor2_p2 = densidade2;
+        break;
+    default:
+      printf("Opcao invalida!\n");
+      return 0; 
+    }
+   printf("comparacao dos atributos:\n");
+   if(escolha1 == 3){
+        printf("Densidade: %.1f (%s) vs %.1f (%s)\n",
+               valor1_p1, pais1, valor1_p2, pais2);
+    } else {
+        printf("Atributo %d: %.1f (%s) vs %.1f (%s)\n",
+               escolha1, valor1_p1, pais1, valor1_p2, pais2);
+    }
+
+   
+    if (escolha2 == 3) { 
+        printf("Densidade: %.1f (%s) vs %.1f (%s)\n",
+               valor2_p1, pais1, valor2_p2, pais2);
+    } else {
+        printf("Atributo %d: %.1f (%s) vs %.1f (%s)\n",
+               escolha2, valor2_p1, pais1, valor2_p2, pais2);
+    }
+
+   
+    soma1 = valor1_p1 + valor2_p1;
+    soma2 = valor1_p2 + valor2_p2;
+
+    printf("\nSoma dos atributos:\n");
+    printf("%s: %.1f\n", pais1, soma1);
+    printf("%s: %.1f\n", pais2, soma2);
+
+   
+    if (soma1 > soma2) {
+        printf("\nVencedor: %s\n", pais1);
+    } else if (soma2 > soma1) {
+        printf("\nVencedor: %s\n", pais2);
+    } else {
+        printf("\nEmpate!\n");
+    }
+
+    return 0; 
+}
