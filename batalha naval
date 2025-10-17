@@ -1,0 +1,81 @@
+#include <stdio.h>
+
+int main(){
+    int tabuleiro[10][10]; //Matriz 10x10 que representa o tabuleiro.
+    int i, j; //Variáveis auxiliares para o loop.
+    
+    //Loop para inicializar todas as posições do tabuleiro com 0 (água)
+    for( i = 0; i < 10; i++){
+        for( j = 0; j < 10; j++){
+            tabuleiro[i][j] = 0;
+        }
+    }
+    //Navios criados na horizontal e vertical de tamanho 3. 
+    int navioHorizontal[3] = {3, 3, 3};
+    int navioVertical[3] = {3, 3, 3};
+    
+    //Coordenadas iniciais dos navios horizontal e vertical(definidos diretamente).
+    int linhaH = 2, colunaH = 1;
+    int linhaV = 5, colunaV = 4;
+    
+    //Validação e posicionamento do navio horizontal.
+    if(colunaH + 3 <= 10){ //verificar se cabe no tabuleiro.
+        int podePosicionar = 1; //flag para sobreposição.
+        
+         //verificar se não há sobreposição.
+    for( i = 0; i < 3; i++){
+        if(tabuleiro[linhaH][colunaH + i] != 0){
+            podePosicionar = 0;
+            break;
+    
+        }
+     }
+    
+    
+    //Posicionar se não houver sobreposição.
+    if(podePosicionar){
+        for(i = 0; i < 3; i++){
+            tabuleiro[linhaH][colunaH + i] = navioHorizontal[i];
+        }
+    }else {
+        printf("Navio horizontal não pode ser posicionado: sobreposição!\n");
+    }
+    
+    }else {
+        printf("Navio horizontal não cabe nesta posição!\n");
+        
+    }
+       //Validação e posicionamento do navio vertical.
+     if(linhaV + 3 <= 10){
+         int podePosicionar = 1;
+         
+         //Verficar se não há sobreposição.
+         for(i = 0; i < 3; i++){
+             if(tabuleiro[linhaV + i][colunaV] != 0){
+                 podePosicionar = 0;
+                 break;
+             }
+         }
+         
+         //Posiciona se não houver sobreposição.
+         if(podePosicionar){
+             for(i = 0; i < 3; i++){
+                 tabuleiro[linhaV + i][colunaV] = navioVertical[i];
+             }
+             
+         }else{
+             printf("Navio vertical não pode ser posicionado: sobreposição!\n");
+         }
+     } else{
+        printf("Navio vertical não cabe nesta posição!\n");
+     }
+       //Exibir tabuleiro.
+       printf("\nTabuleiro:\n");
+       for(i = 0; i < 10; i++){
+           for(j = 0; j < 10; j++){
+               printf("%d ", tabuleiro[i][j]); //0 = água, 3 = navio.
+           }
+           printf("\n");
+       }
+       return 0; //finalizar programa.
+}
