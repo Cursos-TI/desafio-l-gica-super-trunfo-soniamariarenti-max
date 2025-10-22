@@ -1,53 +1,99 @@
 #include <stdio.h>
-//Definição de constantes.
-#define TAM 10 // Tamanho do tabuleiro (10x10).
-#define AGUA 0 // Representa água.
-#define NAVIO 3 // Representa parte de um navio.
+#define TAM 10
+#define AGUA 0
+#define NAVIO 3
+#define HABILIDADE 5
 
-int main(){
-  int tabuleiro[TAM][TAM];  // Matriz que representa o tabuleiro.
-  int i, j; // Variáveis auxiliares para percorrer linhas e colunas.
-  
-   //  1. Inicializar o tabuleiro com água.
+int main() {
+    int tabuleiro[TAM][TAM];
+    int i, j;
+
+    // 1. Inicializa o tabuleiro com água
     for(i = 0; i < TAM; i++){
         for(j = 0; j < TAM; j++){
-          tabuleiro [i][j] = AGUA; // Preenche cada posição com 0 (água).
-            
+            tabuleiro[i][j] = AGUA;
         }
     }
-      int tamanho_navio = 3; // Tamanho fixo dos navios.
-      
-       // 2. Posicionar navio horizontal
-    // Linha 2, colunas 1 a 3
-      for( j = 1; j < 1 + tamanho_navio; j++){
-          tabuleiro[2][j] = NAVIO;
-          
-      }
-      //  3. Posicionar navio vertica
-      // Coluna 6, linhas 5 a 7
-      for(i = 5; i < 5 + tamanho_navio; i++){
-          tabuleiro[i][6] = NAVIO;
-      }
-        //  4. Posicionar navio diagonal principa
-       // Linha e coluna aumentam juntas: [0][0] a [2][2]
-      for(i = 0; i < tamanho_navio; i++){
-          tabuleiro[i][i] = NAVIO;
-      }
-      
-    // 5. Posicionar navio diagonal secundária
-    // Linha diminui e coluna aumenta: [9][7] a [7][9]
-      for(i = 0; i < tamanho_navio; i++){
-          tabuleiro[9 - i][7 + i] = NAVIO;
-      }
-      //  6. Exibir o tabuleiro completo 
-      printf("=== TABULEIRO COMPLETO DE BATALHA NAVAL ===\n\n");
-      
-      for(i = 0; i < TAM; i++){
-          for(j = 0; j < TAM; j++){
-              printf("%d ", tabuleiro[i][j]);
-          }
-          printf("\n");
-      }
+
+    int tamanho_navio = 3;
+
+    // 2. Posicionar navios (horizontal, vertical e diagonais)
+    for(j = 1; j < 1 + tamanho_navio; j++)
+        tabuleiro[2][j] = NAVIO;
+
+    for(i = 5; i < 5 + tamanho_navio; i++)
+        tabuleiro[i][6] = NAVIO;
+
+    for(i = 0; i < tamanho_navio; i++)
+        tabuleiro[i][i] = NAVIO;
+
+    for(i = 0; i < tamanho_navio; i++)
+        tabuleiro[9 - i][7 + i] = NAVIO;
+
+    // 3. Definir matrizes de habilidade (5x5)
+    int cone[5][5] = {
+        {0,0,1,0,0},
+        {0,1,1,1,0},
+        {1,1,1,1,1},
+        {0,0,0,0,0},
+        {0,0,0,0,0}
+    };
+
+    int cruz[5][5] = {
+        {0,0,1,0,0},
+        {0,0,1,0,0},
+        {1,1,1,1,1},
+        {0,0,1,0,0},
+        {0,0,1,0,0}
+    };
+
+    int octaedro[5][5] = {
+        {0,0,1,0,0},
+        {0,1,1,1,0},
+        {1,1,1,1,1},
+        {0,1,1,1,0},
+        {0,0,1,0,0}
+    };
+
+    // 4. Pontos de origem das habilidades
+    int origem_cone_l = 1, origem_cone_c = 3;
+    int origem_cruz_l = 6, origem_cruz_c = 2;
+    int origem_octa_l = 4, origem_octa_c = 7;
+
+    // 5. Sobrepor habilidades no tabuleiro
+    for(i = 0; i < 5; i++){
+        for(j = 0; j < 5; j++){
+            // Cone
+            int l = origem_cone_l + i - 2; // centra a matriz 5x5
+            int c = origem_cone_c + j - 2;
+            if(l >=0 && l < TAM && c >=0 && c < TAM && cone[i][j] == 1)
+                if(tabuleiro[l][c] == AGUA)
+                    tabuleiro[l][c] = HABILIDADE;
+
+            // Cruz
+            l = origem_cruz_l + i - 2;
+            c = origem_cruz_c + j - 2;
+            if(l >=0 && l < TAM && c >=0 && c < TAM && cruz[i][j] == 1)
+                if(tabuleiro[l][c] == AGUA)
+                    tabuleiro[l][c] = HABILIDADE;
+
+            // Octaedro
+            l = origem_octa_l + i - 2;
+            c = origem_octa_c + j - 2;
+            if(l >=0 && l < TAM && c >=0 && c < TAM && octaedro[i][j] == 1)
+                if(tabuleiro[l][c] == AGUA)
+                    tabuleiro[l][c] = HABILIDADE;
+        }
+    }
+
+    // 6. Exibir o tabuleiro final
+    printf("=== TABULEIRO COM HABILIDADES ===\n\n");
+    for(i = 0; i < TAM; i++){
+        for(j = 0; j < TAM; j++){
+            printf("%d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+
     return 0;
 }
- 
